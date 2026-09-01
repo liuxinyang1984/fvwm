@@ -1,0 +1,9 @@
+# FVWM CDE gray-green theme
+SetEnv fvwm_confdir /home/yang/git/fvwm/conf.d
+
+Read $[fvwm_confdir]/00-base.conf
+Read $[fvwm_confdir]/10-colorsets.conf
+Read $[fvwm_confdir]/20-decor-cde.conf
+Read $[fvwm_confdir]/30-bindings-window.conf
+Read $[fvwm_confdir]/40-styles.conf
+Read $[fvwm_confdir]/50-keys.conf
