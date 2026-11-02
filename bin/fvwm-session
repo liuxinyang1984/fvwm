@@ -2,6 +2,13 @@
 # fvwm3 会话（已有 DISPLAY）。安装名: ~/.local/bin/fvwm-session
 #   fvwm-session
 #   startx fvwm
+#
+# Arch 包名是 fvwm3（不是 fvwm）。失败会追加写入 ~/fvwm-session.log
+
+LOG="${FVWM_SESSION_LOG:-$HOME/fvwm-session.log}"
+log() { printf '%s\n' "$*" | tee -a "$LOG" >&2; }
+
+log "===== $(date) DISPLAY=${DISPLAY:-} ====="
 
 _common="${XDG_CONFIG_HOME:-$HOME/.config}/x11/session-common.sh"
 if [ -f "$_common" ]; then
@@ -14,10 +21,21 @@ fi
 unset _common
 
 if [ ! -f "${HOME}/.fvwm/config" ]; then
-	echo "缺少 ~/.fvwm/config；请先: ./install.sh desktop:fvwm" >&2
+	log "缺少 ~/.fvwm/config；请先: ./install.sh desktop:fvwm"
 	exit 1
 fi
-command -v fvwm3 >/dev/null 2>&1 || { echo "fvwm3 not found" >&2; exit 1; }
+
+if ! command -v fvwm3 >/dev/null 2>&1; then
+	log "fvwm3 not found in PATH=$PATH"
+	log "请安装: sudo pacman -S fvwm3   （包名是 fvwm3，不是 fvwm）"
+	sleep 2
+	exit 1
+fi
+
+if ! command -v dbus-run-session >/dev/null 2>&1; then
+	log "dbus-run-session not found；回退直接 exec fvwm3"
+	exec fvwm3
+fi
 
 # fcitx5 / 壁纸由 ~/.fvwm 内 autostart 拉起
 exec dbus-run-session -- fvwm3
