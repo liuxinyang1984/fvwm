@@ -1,4 +1,4 @@
-# fvwmrc
+# fvwm
 
 精简的 **fvwm3** 配置：Motif / CDE 风格窗口装饰 + 标题栏，配合 rofi 启动与切窗。不做 dock / 面板 / 桌面图标。
 
@@ -10,20 +10,31 @@
 - `JetBrainsMono Nerd Font`（窗口菜单字形）
 - 可选：`fcitx5`、`blueman`（见 `bin/cde-autostart.sh`）
 
+## 安装
+
+```bash
+./install.sh                 # 默认 symlink → ~/.fvwm
+./install.sh --copy          # 拷贝整树
+./install.sh --force         # 冲突时备份后覆盖
+# 父仓 dotfiles：
+./install.sh desktop:fvwm
+```
+
 ## 使用
 
 ```bash
-fvwm3 -f /path/to/fvwmrc/config
+fvwm3                        # 读 ~/.fvwm/config（FVWM_USERDIR）
+startx fvwm                  # 经 dotfiles multistart
 ```
 
-嵌套测试示例（自行调整显示号与脚本）：
+嵌套测试：
 
 ```bash
 Xephyr :33 -screen 1904x1116 &
-DISPLAY=:33 fvwm3 -f "$PWD/config"
+DISPLAY=:33 FVWM_USERDIR="$PWD" fvwm3 -f "$PWD/config"
 ```
 
-入口文件为仓库根目录的 `config`，通过 `Read` 加载 `conf.d/`。
+入口为仓库根目录 `config`，经 `$[FVWM_USERDIR]` 加载 `conf.d/`。
 
 ## 目录
 

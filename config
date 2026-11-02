@@ -1,5 +1,7 @@
 # FVWM CDE gray-green theme
-SetEnv fvwm_confdir /home/yang/git/fvwm/conf.d
+# 安装后链到 ~/.fvwm；FVWM_USERDIR 默认为该目录
+SetEnv fvwm_home $[FVWM_USERDIR]
+SetEnv fvwm_confdir $[FVWM_USERDIR]/conf.d
 
 Read $[fvwm_confdir]/00-base.conf
 Read $[fvwm_confdir]/10-colorsets.conf
