@@ -23,8 +23,9 @@
 ## 使用
 
 ```bash
-fvwm3                        # 读 ~/.fvwm/config（FVWM_USERDIR）
-startx fvwm                  # 经 dotfiles multistart
+fvwm-session                 # 推荐：dbus + fvwm3
+startx fvwm                  # multistart → fvwm-session
+fvwm3                        # 仅 WM，无会话包装
 ```
 
 嵌套测试：

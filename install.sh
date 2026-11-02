@@ -19,7 +19,7 @@ usage() {
   --force   目标已存在且不是本仓链接时：备份后重建
   -h        帮助
 
-启动: fvwm3   或（父仓 multistart）startx fvwm
+启动: fvwm-session / startx fvwm（需 ~/.local/bin/fvwm-session）
 EOF
 }
 
@@ -37,7 +37,9 @@ for arg in "$@"; do
 done
 
 [ -f "$ROOT/config" ] || { echo "缺少 $ROOT/config" >&2; exit 1; }
-chmod +x "$ROOT/bin/"*.sh 2>/dev/null || true
+chmod +x "$ROOT/bin/"*.sh "$ROOT/bin/fvwm-session" 2>/dev/null || true
+BIN_DIR="${FVWM_SESSION_BIN:-$HOME/.local/bin}"
+X11_COMMON_DEST="${XDG_CONFIG_HOME:-$HOME/.config}/x11/session-common.sh"
 
 backup_dest() {
 	backup="${DEST}.backup.$(date +%Y%m%d%H%M%S)"
@@ -88,11 +90,27 @@ if prepare_dest; then
 	fi
 fi
 
+# 会话入口 → ~/.local/bin/fvwm-session（multistart: startx fvwm）
+mkdir -p "$BIN_DIR"
+if [ -f "$ROOT/bin/fvwm-session" ]; then
+	if [ "$MODE" = link ]; then
+		ln -sfn "$ROOT/bin/fvwm-session" "$BIN_DIR/fvwm-session"
+		echo "symlink $BIN_DIR/fvwm-session → $ROOT/bin/fvwm-session"
+	else
+		cp -f "$ROOT/bin/fvwm-session" "$BIN_DIR/fvwm-session"
+		chmod +x "$BIN_DIR/fvwm-session"
+		echo "copy $BIN_DIR/fvwm-session"
+	fi
+fi
+# 若父仓 session-common 已由其它模块装好则跳过；否则提示
+if [ ! -e "$X11_COMMON_DEST" ]; then
+	echo "提示: 无 $X11_COMMON_DEST（可选: ./install.sh x11:multistart 或 desktop:kiosk/suckless）" >&2
+fi
+
 missing=""
 command -v fvwm3 >/dev/null 2>&1 || missing="$missing fvwm3"
 command -v rofi >/dev/null 2>&1 || missing="$missing rofi"
 [ -n "$missing" ] && echo "警告: 未在 PATH 找到:$missing" >&2
 
 echo "fvwm → $DEST（mode=$MODE）"
-echo "  fvwm3"
-echo "  startx fvwm   # 需父仓 x11:multistart"
+echo "  fvwm-session / startx fvwm"
