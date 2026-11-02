@@ -3,6 +3,9 @@
  * kb-* lives here: FVWM Exec eats commas in -kb-row-* CLI args.
  */
 configuration {
+    /* Ctrl+j/k 默认占着 accept / delete-to-eol，不先腾出会绑定失败 */
+    kb-accept-entry: "Control+m,Return,KP_Enter";
+    kb-remove-to-eol: "";
     kb-row-up: "Up,Control+k,Control+p";
     kb-row-down: "Down,Control+j,Control+n";
 }
