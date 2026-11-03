@@ -8,6 +8,7 @@ Read $[fvwm_confdir]/10-colorsets.conf
 Read $[fvwm_confdir]/20-decor-cde.conf
 Read $[fvwm_confdir]/30-bindings-window.conf
 Read $[fvwm_confdir]/40-styles.conf
+Read $[fvwm_confdir]/45-icons.conf
 Read $[fvwm_confdir]/50-keys.conf
 Read $[fvwm_confdir]/60-menus.conf
 Read $[fvwm_confdir]/62-menu-windowops.conf

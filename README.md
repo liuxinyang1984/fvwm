@@ -58,6 +58,8 @@ cp /path/to/fvwm/local.conf.example ~/.config/fvwm/local.conf
 | `conf.d/20-decor-cde.conf` | CDE / Motif 装饰与按钮 |
 | `conf.d/30-bindings-window.conf` | 标题栏 / 边框鼠标 |
 | `conf.d/40-styles.conf` | 窗口样式；新窗口 `GrabFocus` |
+| `conf.d/45-icons.conf` | 最小化默认图标（`icons/default.png`） |
+| `icons/default.png` | 复古 CDE 风终端默认图标 |
 | `conf.d/50-keys.conf` | 快捷键（`SetEnv term`） |
 | `conf.d/60-menus.conf` | 菜单样式（Nerd Font） |
 | `conf.d/62-menu-windowops.conf` | 标题栏窗口菜单 |
