@@ -1,9 +1,9 @@
 #!/bin/sh
-# fvwm3 会话（已有 DISPLAY）。安装名: ~/.local/bin/fvwm-session
+# fvwm 会话（已有 DISPLAY）。安装名: ~/.local/bin/fvwm-session
 #   fvwm-session
 #   startx fvwm
 #
-# Arch 包名是 fvwm3（不是 fvwm）。失败会追加写入 ~/fvwm-session.log
+# 优先 fvwm3（Arch），否则 fvwm（Alpine 2.7 等）。失败追加 ~/fvwm-session.log
 
 LOG="${FVWM_SESSION_LOG:-$HOME/fvwm-session.log}"
 log() { printf '%s\n' "$*" | tee -a "$LOG" >&2; }
@@ -20,22 +20,35 @@ else
 fi
 unset _common
 
-if [ ! -f "${HOME}/.fvwm/config" ]; then
-	log "缺少 ~/.fvwm/config；请先: ./install.sh desktop:fvwm"
+export FVWM_USERDIR="${FVWM_USERDIR:-$HOME/.fvwm}"
+CONF="${FVWM_USERDIR}/config"
+
+if [ ! -f "$CONF" ]; then
+	log "缺少 $CONF；请先: ./install.sh desktop:fvwm"
 	exit 1
 fi
 
-if ! command -v fvwm3 >/dev/null 2>&1; then
-	log "fvwm3 not found in PATH=$PATH"
-	log "请安装: sudo pacman -S fvwm3   （包名是 fvwm3，不是 fvwm）"
+FVWM_BIN=""
+for c in fvwm3 fvwm; do
+	if command -v "$c" >/dev/null 2>&1; then
+		FVWM_BIN=$(command -v "$c")
+		break
+	fi
+done
+
+if [ -z "$FVWM_BIN" ]; then
+	log "未找到 fvwm3 或 fvwm（PATH=$PATH）"
+	log "Arch: sudo pacman -S fvwm3    Alpine: sudo apk add fvwm"
 	sleep 2
 	exit 1
 fi
 
+log "使用 $FVWM_BIN -f $CONF（FVWM_USERDIR=$FVWM_USERDIR）"
+
+# fcitx5 / 壁纸由 ~/.fvwm 内 autostart 拉起；-f 让 2.7 / 3 都读同一份 config
 if ! command -v dbus-run-session >/dev/null 2>&1; then
-	log "dbus-run-session not found；回退直接 exec fvwm3"
-	exec fvwm3
+	log "dbus-run-session not found；回退直接 exec"
+	exec "$FVWM_BIN" -f "$CONF"
 fi
 
-# fcitx5 / 壁纸由 ~/.fvwm 内 autostart 拉起
-exec dbus-run-session -- fvwm3
+exec dbus-run-session -- "$FVWM_BIN" -f "$CONF"

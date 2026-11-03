@@ -108,9 +108,11 @@ if [ ! -e "$X11_COMMON_DEST" ]; then
 fi
 
 missing=""
-command -v fvwm3 >/dev/null 2>&1 || missing="$missing fvwm3"
+if ! command -v fvwm3 >/dev/null 2>&1 && ! command -v fvwm >/dev/null 2>&1; then
+	missing="$missing fvwm3|fvwm"
+fi
 command -v rofi >/dev/null 2>&1 || missing="$missing rofi"
-[ -n "$missing" ] && echo "警告: 未在 PATH 找到:$missing" >&2
+[ -n "$missing" ] && echo "警告: 未在 PATH 找到:$missing（Arch: fvwm3；Alpine: fvwm）" >&2
 
 echo "fvwm → $DEST（mode=$MODE）"
-echo "  fvwm-session / startx fvwm"
+echo "  fvwm-session / startx fvwm（优先 fvwm3，否则 fvwm）"

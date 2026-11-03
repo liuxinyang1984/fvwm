@@ -1,10 +1,10 @@
 # fvwm
 
-精简的 **fvwm3** 配置：Motif / CDE 风格窗口装饰 + 标题栏，配合 rofi 启动与切窗。不做 dock / 面板 / 桌面图标。
+精简的 **fvwm** 配置（语法兼顾 fvwm3 与 2.7）：Motif / CDE 装饰 + 标题栏，配合 rofi。不做 dock / 面板 / 桌面图标。
 
 ## 依赖
 
-- `fvwm3`
+- **WM**：`fvwm3`（Arch）或 `fvwm`（Alpine 2.7）；`fvwm-session` 优先前者
 - `rofi`（应用启动、窗口列表）
 - `alacritty`（默认终端快捷键）
 - `JetBrainsMono Nerd Font`（窗口菜单字形）
@@ -23,9 +23,9 @@
 ## 使用
 
 ```bash
-fvwm-session                 # 推荐：dbus + fvwm3
+fvwm-session                 # 推荐：dbus + fvwm3|fvwm -f ~/.fvwm/config
 startx fvwm                  # multistart → fvwm-session
-fvwm3                        # 仅 WM，无会话包装
+fvwm3 -f ~/.fvwm/config      # 仅 WM（或 Alpine: fvwm -f …）
 ```
 
 嵌套测试：
@@ -33,6 +33,7 @@ fvwm3                        # 仅 WM，无会话包装
 ```bash
 Xephyr :33 -screen 1904x1116 &
 DISPLAY=:33 FVWM_USERDIR="$PWD" fvwm3 -f "$PWD/config"
+# Alpine 2.7：把 fvwm3 换成 fvwm
 ```
 
 入口为仓库根目录 `config`，经 `$[FVWM_USERDIR]` 加载 `conf.d/`。
