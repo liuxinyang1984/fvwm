@@ -1,0 +1,8 @@
+# 复制到本机（勿放进 git / 勿放进被 symlink 的仓库树）：
+#   mkdir -p ~/.config/fvwm
+#   cp local.conf.example ~/.config/fvwm/local.conf
+#
+# 在共享 config 全部 Read 之后加载，可覆盖 SetEnv / Key 等。
+
+# P27H / 无 GPU 加速时常用 st：
+SetEnv term st

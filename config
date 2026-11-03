@@ -12,3 +12,6 @@ Read $[fvwm_confdir]/50-keys.conf
 Read $[fvwm_confdir]/60-menus.conf
 Read $[fvwm_confdir]/62-menu-windowops.conf
 Read $[fvwm_confdir]/80-autostart.conf
+
+# 本机私货（不在仓库内）：覆盖 term / 键位等。例见 local.conf.example
+PipeRead `test -r "$HOME/.config/fvwm/local.conf" && echo Read "$HOME/.config/fvwm/local.conf"`

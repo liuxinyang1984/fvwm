@@ -6,7 +6,7 @@
 
 - **WM**：`fvwm3`（Arch）或 `fvwm`（Alpine 2.7）；`fvwm-session` 优先前者
 - `rofi`（应用启动、窗口列表）
-- `alacritty`（默认终端快捷键）
+- 默认终端命令 `alacritty`（可用本机 `local.conf` 改成 `st` 等，见下）
 - `JetBrainsMono Nerd Font`（窗口菜单字形）
 - 可选：`fcitx5`、`blueman`（见 `bin/cde-autostart.sh`）
 
@@ -36,19 +36,28 @@ DISPLAY=:33 FVWM_USERDIR="$PWD" fvwm3 -f "$PWD/config"
 # Alpine 2.7：把 fvwm3 换成 fvwm
 ```
 
-入口为仓库根目录 `config`，经 `$[FVWM_USERDIR]` 加载 `conf.d/`。
+入口为仓库根目录 `config`，经 `$[FVWM_USERDIR]` 加载 `conf.d/`。最后可选读本机私货（**不在仓库里**）：
+
+```bash
+mkdir -p ~/.config/fvwm
+cp /path/to/fvwm/local.conf.example ~/.config/fvwm/local.conf
+# 编辑：SetEnv term st
+```
+
+`~/.fvwm` 若是指向 git 的 symlink，把私货放在 `~/.config/fvwm/local.conf`，更新 dotfiles 不会覆盖。
 
 ## 目录
 
 | 路径 | 说明 |
 |------|------|
-| `config` | 主配置入口 |
+| `config` | 主配置入口（末尾 PipeRead 本机 local.conf） |
+| `local.conf.example` | 本机覆盖示例（复制到 `~/.config/fvwm/local.conf`） |
 | `conf.d/00-base.conf` | 桌面、启动函数 |
 | `conf.d/10-colorsets.conf` | 配色 |
 | `conf.d/20-decor-cde.conf` | CDE / Motif 装饰与按钮 |
 | `conf.d/30-bindings-window.conf` | 标题栏 / 边框鼠标 |
 | `conf.d/40-styles.conf` | 窗口样式；新窗口 `GrabFocus` |
-| `conf.d/50-keys.conf` | 快捷键 |
+| `conf.d/50-keys.conf` | 快捷键（`SetEnv term`） |
 | `conf.d/60-menus.conf` | 菜单样式（Nerd Font） |
 | `conf.d/62-menu-windowops.conf` | 标题栏窗口菜单 |
 | `conf.d/80-autostart.conf` | 延迟自启 |
@@ -61,7 +70,7 @@ DISPLAY=:33 FVWM_USERDIR="$PWD" fvwm3 -f "$PWD/config"
 
 | 快捷键 | 作用 |
 |--------|------|
-| Alt + Return | 终端（alacritty） |
+| Alt + Return | 终端（默认 `alacritty`，`$[term]`） |
 | Alt + Space | rofi 应用启动 |
 | Alt + Tab | rofi 窗口切换 |
 | Alt + m | 最大化 |
