@@ -6,4 +6,5 @@
 
 `default.png`：Motif/CDE 风终端窗，本仓绘制，可自由使用。
 
-规则在 `conf.d/45-icons.conf`，行为对齐 [fvwm2-sgi](https://github.com/ZoomTen/fvwm2-sgi) 的 `icons.fvwm2rc`（IconBox / IconSize / IconFont / IconOverride），**不用**其 IRIX 截图素材。
+规则在 `conf.d/45-icons.conf`，**数值与 Class 列表对齐** [fvwm2-sgi](https://github.com/ZoomTen/fvwm2-sgi) 的 `icons.fvwm2rc`（含 `IconBox 1680x305+135+6`、`IconSize 90 70`、Helvetica `IconFont`）。  
+所有 `Icon` / `IconOverride` 指向本仓 `default.png`，不引入其截图 PNG。小屏可在 `local.conf` 里改 `IconBox`。
