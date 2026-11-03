@@ -44,7 +44,8 @@ cp /path/to/fvwm/local.conf.example ~/.config/fvwm/local.conf
 # 编辑：SetEnv term st
 ```
 
-`~/.fvwm` 若是指向 git 的 symlink，把私货放在 `~/.config/fvwm/local.conf`，更新 dotfiles 不会覆盖。
+`~/.fvwm` 若是指向 git 的 symlink，把私货放在 `~/.config/fvwm/local.conf`，更新 dotfiles 不会覆盖。  
+（`config` 里用 `$[HOME]` 探测该文件；不要写裸 `$HOME`，会被 FVWM 拆成 `$H`。）
 
 ## 目录
 
