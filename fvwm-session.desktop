@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=fvwm
+Comment=fvwm/fvwm3 (dotfiles fvwm-session)
+Exec=@HOME@/.local/bin/fvwm-session
+TryExec=@HOME@/.local/bin/fvwm-session
+DesktopNames=fvwm
+Type=Application
