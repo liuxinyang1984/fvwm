@@ -118,13 +118,12 @@ echo "fvwm → $DEST（mode=$MODE）"
 echo "  fvwm-session / startx fvwm（优先 fvwm3，否则 fvwm）"
 
 # Ly / 其它 DM：注册 xsessions（需 sudo；LY_SKIP_XSESSION=1 跳过）
-# 父仓 layout: vendor/fvwm → ../../config/x11/ly
-_ly_xsess="$(cd "$ROOT/../.." && pwd)/config/x11/ly/install-xsession.sh"
+# 父仓: vendor/ly 与 vendor/fvwm 同级
+_ly_xsess="$ROOT/../ly/install-xsession.sh"
 if [ -f "$ROOT/fvwm-session.desktop" ] && [ -f "$_ly_xsess" ]; then
 	chmod +x "$_ly_xsess"
 	sh "$_ly_xsess" "$ROOT/fvwm-session.desktop" || echo "警告: xsessions 未写入（无 root 或已跳过）" >&2
 elif [ -f "$ROOT/fvwm-session.desktop" ]; then
-	# 单独 clone fvwm 仓时可能没有父仓 ly 助手
-	echo "提示: 无父仓 ly/install-xsession.sh，跳过 xsessions" >&2
+	echo "提示: 无 vendor/ly/install-xsession.sh，跳过 xsessions" >&2
 fi
 unset _ly_xsess
